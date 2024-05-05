@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "airtable": "^0.12.2",
     "copilot-node-sdk": "^2.0.0",
     "next": "^14.1.0",
     "prettier-plugin-tailwindcss": "^0.5.12",

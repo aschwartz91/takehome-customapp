@@ -1,0 +1,65 @@
+.task-list {
+  width: 80%;
+  margin: auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.task-details {
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  color: rgb(100, 100, 100);
+  font-size: smaller;
+}
+
+.status-select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.status-select.to-do {
+  background-color: #f28b82;
+}
+
+/* Pastel Red */
+.status-select.in-progress {
+  background-color: #fbbc04;
+}
+
+/* Pastel Orange */
+.status-select.done {
+  background-color: #34a853;
+}
+
+/* Pastel Green */
+
+select::-ms-expand {
+  display: none;
+}
