@@ -25,9 +25,10 @@ const nextConfig = {
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
+    connect-src 'self' https://api.airtable.com; 
     font-src 'self';
     object-src 'none';
     base-uri 'self';
