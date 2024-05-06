@@ -14,7 +14,7 @@ class MyDocument extends Document {
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="
-          default-src 'self';
+          default-src 'self' https://api.airtable.com;
           style-src 'self' 'unsafe-inline';
           script-src-elem 'self' 'unsafe-eval''unsafe-inline' https://api.airtable.com;
           script-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com;
@@ -24,7 +24,6 @@ class MyDocument extends Document {
           object-src 'self';
           base-uri 'self';
           form-action 'self';
-          frame-ancestors 'none';
           upgrade-insecure-requests;
       
       
