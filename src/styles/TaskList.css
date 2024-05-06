@@ -21,6 +21,19 @@
   padding: 10px;
 }
 
+h3 {
+  margin: 0;
+  color: black;
+  font-size: 18px;
+}
+
+.task-project {
+  color: grey;
+  font-size: 16px;
+  margin-bottom: 10px;
+  /* Adjust spacing as necessary */
+}
+
 .task-details {
   display: flex;
   justify-content: space-around;
