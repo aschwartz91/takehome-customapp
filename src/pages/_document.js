@@ -16,12 +16,10 @@ class MyDocument extends Document {
           <meta http-equiv="Content-Security-Policy" content="
           default-src 'self';
           style-src 'self' 'unsafe-inline';
-          script-src-elem 'self' 'unsafe-eval' https://api.airtable.com 'unsafe-inline';
-          script-src 'self' 'unsafe-eval' https://api.airtable.com 'unsafe-inline' ;
-          
-          
+          script-src-elem 'self' 'unsafe-eval''unsafe-inline' https://api.airtable.com;
+          script-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com;
           img-src 'self' blob: data:;
-          connect-src 'self' https://api.airtable.com; 
+          connect-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com; 
           font-src 'self';
           object-src 'self';
           base-uri 'self';
