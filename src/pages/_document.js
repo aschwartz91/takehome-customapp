@@ -14,11 +14,13 @@ class MyDocument extends Document {
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="
-            default-src 'self';
-            style-src 'self' 'unsafe-inline';
-            script-src 'self' 'unsafe-eval' https://api.airtable.com;
-            connect-src 'self' https://api.airtable.com;
-          "/>
+        default-src 'self';
+        style-src 'self' 'unsafe-inline'; 
+        script-src 'self' 'unsafe-eval';  
+        connect-src 'self' https://api.airtable.com; 
+        img-src 'self';  
+    "/>
+
         </Head>
         <body>
           <Main />
