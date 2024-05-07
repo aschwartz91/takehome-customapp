@@ -141,18 +141,19 @@ const TaskList = () => {
         </div>
         <div className="task-info">
           <span className="label">Priority</span>
-          <p>{task.Priority || 'No Priority'}</p>
+          <p>{task.Priority|| 'No Priority'}</p>
         </div>
-      </div>
-      <div className="task-status">
-        <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
-          <option value="To Do">To Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
-        </select>
+        <div className="task-status">
+          <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
       </div>
     </div>
   );
+  
   
   
   

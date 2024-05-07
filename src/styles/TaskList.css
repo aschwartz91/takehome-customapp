@@ -65,8 +65,17 @@ select {
 
 /* Specific styles for Kanban view */
 .kanban-board .task {
+  display: flex;
   flex-direction: column;
+  align-items: start;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
+
+
 
 .kanban-board .select-container {
   display: block;
@@ -109,13 +118,14 @@ h3 {
 .task-project {
   color: grey;
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .task-details {
   display: flex;
   justify-content: space-between;
   text-align: left;
+  width: 100%;
 }
 
 .list-view .task-project,
@@ -156,6 +166,7 @@ h3 {
   flex-direction: column;
   flex-basis: 25%;
   min-width: 150px;
+  margin-bottom: 5px;
   /* Ensures minimum width */
 }
 
@@ -279,6 +290,13 @@ select::-ms-expand {
   /* Allow the content to fit normally */
 }
 
+.kanban-board .task .label {
+  color: #757575;
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
 .task {
   display: flex;
   flex-direction: column;
@@ -345,7 +363,7 @@ select::-ms-expand {
 }
 
 .task-list button:focus {
-  box-shadow: 0 0 0 3px rgba(100, 100, 250, 0.5);
+  box-shadow: 0 0 0 3px #333;
 }
 
 .task-list input[type="text"] {
