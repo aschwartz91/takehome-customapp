@@ -1,6 +1,8 @@
 .task-list {
   width: 80%;
   margin: auto;
+  max-width: 1000px;
+  /* Sets a max-width for larger screens */
 }
 
 .filters {
@@ -19,35 +21,46 @@
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
+  min-width: 300px;
+  /* Prevents the task box from becoming too small */
+  overflow: hidden;
+  /* Ensures content does not overflow */
 }
 
 h3 {
   margin: 0;
   color: black;
   font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Adds an ellipsis if the title is too long */
 }
 
 .task-project {
   color: grey;
   font-size: 16px;
   margin-bottom: 10px;
-  /* Adjust spacing as necessary */
 }
 
 .task-details {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: left;
 }
 
 .task-info {
   display: flex;
   flex-direction: column;
+  flex-basis: 25%;
+  min-width: 150px;
+  /* Ensures minimum width */
 }
 
 .label {
   color: rgb(100, 100, 100);
   font-size: smaller;
+  margin-bottom: 5px;
 }
 
 .status-select {
@@ -55,24 +68,76 @@ h3 {
   border-radius: 5px;
   border: 1px solid #ccc;
   cursor: pointer;
+  width: 120px;
+  display: block;
 }
 
+/* Media query for very small screens */
+@media (max-width: 600px) {
+
+  .task-list,
+  .task-details,
+  .filters {
+    flex-direction: column;
+  }
+
+  .task-info {
+    width: 100%;
+    /* Ensures task info stacks and fills available width */
+    min-width: 0;
+    /* Removes minimum width restrictions */
+  }
+
+  .status-select {
+    width: 100%;
+    /* Allows the select element to fill its container */
+  }
+}
+
+/* Additional styling for status colors */
 .status-select.to-do {
   background-color: #f28b82;
 }
 
-/* Pastel Red */
 .status-select.in-progress {
   background-color: #fbbc04;
 }
 
-/* Pastel Orange */
 .status-select.done {
   background-color: #34a853;
 }
 
-/* Pastel Green */
-
 select::-ms-expand {
   display: none;
+}
+
+/* Container for the loading indicator */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Full height of the viewport */
+  /*padding-top: 10px;
+  /* Lower the loading indicator a bit */
+}
+
+.loading-indicator {
+  border: 6px solid rgba(0, 0, 0, 0.1);
+  border-top: 6px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

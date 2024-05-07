@@ -159,7 +159,9 @@ const TaskList = () => {
             </div>
           ))
         ) : (
-          <p>No tasks found or still loading...</p>
+          <div class="loading-container">
+            <div id="loadingIndicator" class="loading-indicator"></div>
+          </div>
         )}
       </div>
     </div>
