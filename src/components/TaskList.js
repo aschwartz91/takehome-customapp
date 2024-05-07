@@ -9,7 +9,7 @@ const TaskList = () => {
   const [project, setProject] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [timeoutError, setTimeoutError] = useState(false);
-  //const [timerId, setTimerId] = useState(null);
+  const [isKanbanView, setIsKanbanView] = useState(false);
 
   useEffect(() => {
 
@@ -38,13 +38,6 @@ const TaskList = () => {
   
     fetchTasks();
   
-   /* let timerId = setTimeout(() => {
-      if (tasks.length === 0 && !timeoutError) {
-        setTimeoutError(true);
-      }
-    }, 5000);
-  
-    return () => clearTimeout(timerId);*/
   }, []);
 
   useEffect(() => {
@@ -95,6 +88,11 @@ const TaskList = () => {
     return `status-select ${status.toLowerCase().replace(/\s+/g, '-')}`;
   };
 
+  const getTaskClassName = (isKanban) => {
+    return `task ${isKanban ? 'kanban-task' : 'list-view'}`;
+  };
+  
+
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
       const endpoint = '/api/updateTask';
@@ -128,9 +126,48 @@ const TaskList = () => {
     }
   };
 
+  const renderTask = (task, index) => (
+    <div key={index} className={getTaskClassName(isKanbanView)}>
+      <h3>{task['Task Name'] || 'No Title'}</h3>
+      <div className="task-details">
+        <div className="task-project">{task.Project || 'No Project'}</div>
+        <div className="task-info">
+          <span className="label">Description</span>
+          <p>{task.Description || 'No Description'}</p>
+        </div>
+        <div className="task-info">
+          <span className="label">Deadline</span>
+          <p>{formatDate(task.Deadline) || 'No Deadline'}</p>
+        </div>
+        <div className="task-info">
+          <span className="label">Priority</span>
+          <p>{task.Priority || 'No Priority'}</p>
+        </div>
+      </div>
+      <div className="task-status">
+        <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+    </div>
+  );
+  
+  
+  
+  
+
+  const toggleView = () => {
+    setIsKanbanView(prev => !prev); // Toggle the state based on its previous value
+  };
+  
   return (
     <div className="task-list">
       <h1>My Tasks</h1>
+      <button onClick={toggleView}>
+        {isKanbanView ? 'Show List View' : 'Show Kanban View'}
+      </button>
       <div className="filters">
         <input type="text" placeholder="Search by task name..." aria-label="Search tasks" value={search} onChange={handleSearchChange} />
         <select aria-label="Filter by status" value={status} onChange={handleStatusChange()}>
@@ -152,39 +189,24 @@ const TaskList = () => {
             <div id="loadingIndicator" className="loading-indicator"></div>
           </div>
         ) : timeoutError ? (
-          <div>No data found... try double-checking your spelling</div>
-        ) : filteredTasks.length > 0 ? (
-          filteredTasks.map((task, index) => (
-            <div key={index} className="task">
-              <h3>{task['Task Name'] || 'No Title'}</h3>
-              <div className="task-project">{task.Project || 'No Project'}</div>
-              <div className="task-details">
-                <div className="task-info">
-                  <span className="label">Description</span>
-                  <p>{task.Description || 'No Description'}</p>
-                </div>
-                <div className="task-info">
-                  <span className="label">Deadline</span>
-                  <p>{formatDate(task.Deadline) || 'No Deadline'}</p>
-                </div>
-                <div className="task-info">
-                  <span className="label">Priority</span>
-                  <p>{task.Priority || 'No Priority'}</p>
-                </div>
-                <div className="task-info">
-                  <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
-                    <option value="To Do">To Do</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Done">Done</option>
-                  </select>
-                </div>
-              </div>
+          <div>No data found...</div>
+        ) : isKanbanView ? (
+          <div className="kanban-board">
+            <div className="kanban-column">
+              <h2>To Do</h2>
+              {filteredTasks.filter(task => task.Status === 'To Do').map(renderTask)}
             </div>
-          ))
-        ) : (
-          <div className="loading-container">
-            <div id="loadingIndicator" className="loading-indicator"></div>
+            <div className="kanban-column">
+              <h2>In Progress</h2>
+              {filteredTasks.filter(task => task.Status === 'In Progress').map(renderTask)}
+            </div>
+            <div className="kanban-column">
+              <h2>Done</h2>
+              {filteredTasks.filter(task => task.Status === 'Done').map(renderTask)}
+            </div>
           </div>
+        ) : (
+          filteredTasks.map(renderTask)
         )}
       </div>
     </div>

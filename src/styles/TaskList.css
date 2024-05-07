@@ -16,6 +16,64 @@ select {
   /* Sets a max-width for larger screens */
 }
 
+.list-task {
+  /* Specific styles for tasks in List view */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list-view .task {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+
+.list-view .task-details .label {
+  display: block;
+  color: #757575;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.list-view .task-details {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.list-view .select-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-view .select-container select {
+  width: auto;
+  max-width: 200px;
+  min-width: 150px;
+  padding: 8px;
+  /* Limit width of the select box */
+}
+
+/* Specific styles for Kanban view */
+.kanban-board .task {
+  flex-direction: column;
+}
+
+.kanban-board .select-container {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .filters {
   display: flex;
   justify-content: space-between;
@@ -29,19 +87,19 @@ select {
 }
 
 .task {
-  border: 1px solid lightgrey;
-  border-radius: 5px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
   min-width: 300px;
-  /* Prevents the task box from becoming too small */
-  overflow: hidden;
-  /* Ensures content does not overflow */
 }
 
 h3 {
   margin: 0;
   color: black;
-  font-size: 18px;
+  font-size: 20px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -50,7 +108,7 @@ h3 {
 
 .task-project {
   color: grey;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
@@ -58,6 +116,38 @@ h3 {
   display: flex;
   justify-content: space-between;
   text-align: left;
+}
+
+.list-view .task-project,
+.list-view .task-description {
+  width: 100%;
+}
+
+.list-view .task-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  padding-right: 20px;
+  margin-bottom: 8px;
+  flex-basis: 100%;
+}
+
+.list-view .task-status {
+  flex: 0 0 auto;
+}
+
+.list-view .task-status select {
+  padding: 8px 12px;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+
+.list-view .task-info p {
+  color: #333;
+  font-size: 14px;
+  margin: 0;
 }
 
 .task-info {
@@ -83,6 +173,12 @@ h3 {
   display: block;
 }
 
+.task-status {
+  padding: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* Media query for very small screens */
 @media (max-width: 600px) {
 
@@ -100,8 +196,10 @@ h3 {
   }
 
   .status-select {
-    width: 100%;
-    /* Allows the select element to fill its container */
+    width: 120px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
 }
 
@@ -153,4 +251,77 @@ select::-ms-expand {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.kanban-task {
+  /* Specific styles for tasks in Kanban view */
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-board {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 10px;
+  /* Adjust spacing between columns */
+}
+
+.kanban-column {
+  flex: 1;
+  /* Equal width for each column */
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  /* Allow the content to fit normally */
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.task:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-info {
+  margin-bottom: 8px;
+  /* Spacing between information rows */
+}
+
+.task-info:last-child {
+  margin-bottom: 0;
+}
+
+.select-container {
+  text-align: center;
+  /* Center the select dropdown horizontally */
+  display: none;
+  /* Initially hide the selector */
+}
+
+.kanban-board .select-container {
+  display: block;
+  /* Display only in Kanban view */
+  margin-top: auto;
+  /* Ensure it's at the bottom of the card */
+}
+
+.select-container select {
+  width: 50%;
+  /* Appropriate size for selector */
+  padding: 8px;
+  margin-top: 10px;
+  /* Spacing above the selector */
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
