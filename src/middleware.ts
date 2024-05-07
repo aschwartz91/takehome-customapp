@@ -9,17 +9,18 @@ export function middleware(request: NextRequest) {
   // If you have a custom domain add it below to the
   // space separated frame-ancestors list.
   const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
-    img-src 'self' blob: data:;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors https://dashboard.copilot.com/ https://*.copilot.app/;
-    block-all-mixed-content;
-    upgrade-insecure-requests;
+  default-src 'self';
+  style-src 'self' 'unsafe-inline';
+  script-src-elem 'self' 'unsafe-eval''unsafe-inline' https://api.airtable.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com;
+  img-src 'self' blob: data:;
+  connect-src 'self' 'unsafe-eval' 'unsafe-inline' https://api.airtable.com; 
+  font-src 'self';
+  object-src 'self';
+  base-uri 'self';
+  form-action 'self';
+  upgrade-insecure-requests;
+
 `;
   // Replace newline characters and spaces
   const contentSecurityPolicyHeaderValue = cspHeader
