@@ -9,13 +9,15 @@ const TaskList = () => {
   const [project, setProject] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [timeoutError, setTimeoutError] = useState(false);
-  const [timerId, setTimerId] = useState(null);
+  //const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
+
+  
     const fetchTasks = async () => {
       setIsLoading(true);
       setTimeoutError(false);
-
+  
       try {
         const response = await fetch('/api/tasks');
         const data = await response.json();
@@ -23,34 +25,22 @@ const TaskList = () => {
         setFilteredTasks(data);
       } catch (error) {
         console.error('Failed to fetch tasks:', error);
+        setTimeoutError(true);
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchTasks();
-
-    const timer = setTimeout(() => {
-      if (isLoading) {
+  
+    let timerId = setTimeout(() => {
+      if (tasks.length === 0 && !timeoutError) {
         setTimeoutError(true);
-        setIsLoading(false);
       }
     }, 5000);
-
-    setTimerId(timer);
-    return () => clearTimeout(timer);
+  
+    return () => clearTimeout(timerId);
   }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isLoading) {
-        setTimeoutError(true);
-        setIsLoading(false);
-      }
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [isLoading]);
 
   useEffect(() => {
     const filtered = tasks.filter(task => {
