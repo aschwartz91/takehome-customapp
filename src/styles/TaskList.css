@@ -1,3 +1,14 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+button,
+input,
+select {
+  font-family: 'Inter', sans-serif;
+}
+
+
 .task-list {
   width: 80%;
   margin: auto;
@@ -96,36 +107,38 @@ h3 {
 
 /* Additional styling for status colors */
 .status-select.to-do {
-  background-color: #f28b82;
+  background-color: #E76F51;
+  text-align: center;
+  font-weight: bold;
 }
 
 .status-select.in-progress {
-  background-color: #fbbc04;
+  background-color: #F2C94C;
+  text-align: center;
+  font-weight: bold;
 }
 
 .status-select.done {
-  background-color: #34a853;
+  background-color: #09AA6C;
+  text-align: center;
+  font-weight: bold;
+
 }
 
 select::-ms-expand {
   display: none;
 }
 
-/* Container for the loading indicator */
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* Full height of the viewport */
-  /*padding-top: 10px;
-  /* Lower the loading indicator a bit */
 }
 
 .loading-indicator {
   border: 6px solid rgba(0, 0, 0, 0.1);
-  border-top: 6px solid #3498db;
-  /* Blue */
+  border-top: 6px solid #09AA6C;
   border-radius: 50%;
   width: 40px;
   height: 40px;

@@ -7,57 +7,83 @@ const TaskList = () => {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [project, setProject] = useState('');
-
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch('/api/tasks');
-      const data = await response.json();
-      setTasks(data);
-      setFilteredTasks(data);
-    } catch (error) {
-      console.error('Failed to fetch tasks:', error);
-    }
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
+    const fetchTasks = async () => {
+      setIsLoading(true);
+      setTimeoutError(false);
+
+      try {
+        const response = await fetch('/api/tasks');
+        const data = await response.json();
+        setTasks(data);
+        setFilteredTasks(data);
+      } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchTasks();
+
+    const timer = setTimeout(() => {
+      if (isLoading) {
+        setTimeoutError(true);
+        setIsLoading(false);
+      }
+    }, 5000);
+
+    setTimerId(timer);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    setFilteredTasks(tasks.filter(task => {
+    const timer = setTimeout(() => {
+      if (isLoading) {
+        setTimeoutError(true);
+        setIsLoading(false);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  useEffect(() => {
+    const filtered = tasks.filter(task => {
       return (!search || task['Task Name'].toLowerCase().includes(search.toLowerCase()) || task.Description.toLowerCase().includes(search.toLowerCase())) &&
              (!status || task.Status === status) &&
              (!project || task.Project === project);
-    }));
-  }, [search, status, project, tasks]);
+    });
+    setFilteredTasks(filtered);
+    if (!filtered.length && !isLoading) {
+      setTimeoutError(true);
+    } else {
+      setTimeoutError(false);
+    }
+  }, [search, status, project, tasks]); // Ensure all these dependencies are correct
+  
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
-  // This function now expects an event and optionally a taskId
   const handleStatusChange = (taskId = null) => (event) => {
     const newStatus = event.target.value;
-    console.log("we are calling this method successfuly");
     if (taskId) {
-      // This is a task-specific status change
-      console.log("we are updating task status");
       updateTaskStatus(taskId, newStatus);
     } else {
-      // This is a global filter status change
-      console.log("filtering by status");
       setStatus(newStatus);
     }
   };
-
-    
-
 
   const handleProjectChange = (e) => {
     setProject(e.target.value);
   };
 
-  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -66,46 +92,36 @@ const TaskList = () => {
       year: 'numeric'
     });
   };
-  
+
   const getStatusClassName = (status) => {
     return `status-select ${status.toLowerCase().replace(/\s+/g, '-')}`;
   };
-  
 
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
       const endpoint = '/api/updateTask';
       const payload = {
         id: taskId,
-        fields: {
-          Status: newStatus
-        }
+        fields: { Status: newStatus }
       };
-  
+
       const response = await fetch(endpoint, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-  
+
       if (!response.ok) throw new Error('Failed to update task status');
-  
+
       await fetchTasks();
 
-      const updatedTasks = filteredTasks.map(task => {
-        if (task.id === taskId) {
-          return {...task, Status: newStatus};
-        }
-        return task;
-      });
+      const updatedTasks = filteredTasks.map(task => task.id === taskId ? { ...task, Status: newStatus } : task);
       setFilteredTasks(updatedTasks);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
   };
-  
+
   return (
     <div className="task-list">
       <h1>My Tasks</h1>
@@ -113,7 +129,7 @@ const TaskList = () => {
         <input type="text" placeholder="Search by task name..." aria-label="Search tasks" value={search} onChange={handleSearchChange} />
         <select aria-label="Filter by status" value={status} onChange={handleStatusChange()}>
           <option value="">All Statuses</option>
-          <option value="To Do">To Do</option>  
+          <option value="To Do">To Do</option>
           <option value="In Progress">In Progress</option>
           <option value="Done">Done</option>
         </select>
@@ -125,13 +141,17 @@ const TaskList = () => {
         </select>
       </div>
       <div className="task-container">
-        {filteredTasks.length > 0 ? (
+        {isLoading ? (
+          <div className="loading-container">
+            <div id="loadingIndicator" className="loading-indicator"></div>
+          </div>
+        ) : timeoutError ? (
+          <div>No data found... try double-checking your spelling</div>
+        ) : filteredTasks.length > 0 ? (
           filteredTasks.map((task, index) => (
             <div key={index} className="task">
-              <h3>{task['Task Name']   || 'No Title'}</h3>
-              <div className="task-project">
-                {task.Project || 'No Project'}
-              </div>
+              <h3>{task['Task Name'] || 'No Title'}</h3>
+              <div className="task-project">{task.Project || 'No Project'}</div>
               <div className="task-details">
                 <div className="task-info">
                   <span className="label">Description</span>
@@ -146,10 +166,7 @@ const TaskList = () => {
                   <p>{task.Priority || 'No Priority'}</p>
                 </div>
                 <div className="task-info">
-                  <select
-                    className={getStatusClassName(task.Status)}
-                    value={task.Status}
-                    onChange={handleStatusChange(task.id)}>
+                  <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
                     <option value="To Do">To Do</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Done">Done</option>
@@ -159,8 +176,8 @@ const TaskList = () => {
             </div>
           ))
         ) : (
-          <div class="loading-container">
-            <div id="loadingIndicator" class="loading-indicator"></div>
+          <div className="loading-container">
+            <div id="loadingIndicator" className="loading-indicator"></div>
           </div>
         )}
       </div>
