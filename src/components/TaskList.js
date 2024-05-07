@@ -129,19 +129,19 @@ const TaskList = () => {
   const renderTask = (task, index) => (
     <div key={index} className={getTaskClassName(isKanbanView)}>
       <h3>{task['Task Name'] || 'No Title'}</h3>
-      <div className="task-project">{task.Project || 'No Project'}</div>
-      <div className="task-details-row">
+      <div className="task-details">
+        <div className="task-project">{task.Project || 'No Project'}</div>
         <div className="task-info">
-          <span className="label">Description:</span>
+          <span className="label">Description</span>
           <p>{task.Description || 'No Description'}</p>
         </div>
         <div className="task-info">
-          <span className="label">Deadline:</span>
+          <span className="label">Deadline</span>
           <p>{formatDate(task.Deadline) || 'No Deadline'}</p>
         </div>
         <div className="task-info">
-          <span className="label">Priority:</span>
-          <p>{task.Priority || 'No Priority'}</p>
+          <span className="label">Priority</span>
+          <p>{task.Priority|| 'No Priority'}</p>
         </div>
         <div className="task-status">
           <select className={getStatusClassName(task.Status)} value={task.Status} onChange={handleStatusChange(task.id)}>
@@ -153,7 +153,6 @@ const TaskList = () => {
       </div>
     </div>
   );
-  
   
   
   
