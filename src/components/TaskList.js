@@ -28,18 +28,23 @@ const TaskList = () => {
         setTimeoutError(true);
       } finally {
         setIsLoading(false);
+        setTimeout(() => {
+          if (tasks.length === 0 && !isLoading) {
+            setTimeoutError(true);
+          }
+        }, 5000);
       }
     };
   
     fetchTasks();
   
-    let timerId = setTimeout(() => {
+   /* let timerId = setTimeout(() => {
       if (tasks.length === 0 && !timeoutError) {
         setTimeoutError(true);
       }
     }, 5000);
   
-    return () => clearTimeout(timerId);
+    return () => clearTimeout(timerId);*/
   }, []);
 
   useEffect(() => {
@@ -49,12 +54,15 @@ const TaskList = () => {
              (!project || task.Project === project);
     });
     setFilteredTasks(filtered);
+
     if (!filtered.length && !isLoading) {
       setTimeoutError(true);
     } else {
       setTimeoutError(false);
     }
-  }, [search, status, project, tasks]); // Ensure all these dependencies are correct
+
+    setTimeoutError(filtered.length === 0 && !isLoading);
+  }, [search, status, project, tasks, isLoading]); // Ensure all these dependencies are correct
   
 
   const handleSearchChange = (e) => {
@@ -103,10 +111,18 @@ const TaskList = () => {
 
       if (!response.ok) throw new Error('Failed to update task status');
 
-      await fetchTasks();
-
-      const updatedTasks = filteredTasks.map(task => task.id === taskId ? { ...task, Status: newStatus } : task);
-      setFilteredTasks(updatedTasks);
+      const updatedTasks = tasks.map(task => {
+        if (task.id === taskId) {
+          return {...task, Status: newStatus};
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+      setFilteredTasks(updatedTasks.filter(task => {
+        return (!search || task['Task Name'].toLowerCase().includes(search.toLowerCase()) || task.Description.toLowerCase().includes(search.toLowerCase())) &&
+               (!status || task.Status === status) &&
+               (!project || task.Project === project);
+      }));
     } catch (error) {
       console.error('Error updating task status:', error);
     }
