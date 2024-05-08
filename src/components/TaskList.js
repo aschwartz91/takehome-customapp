@@ -55,7 +55,7 @@ const TaskList = () => {
     }
 
     setTimeoutError(filtered.length === 0 && !isLoading);
-  }, [search, status, project, tasks, isLoading]); // Ensure all these dependencies are correct
+  }, [search, status, project, tasks, isLoading]);
   
 
   const handleSearchChange = (e) => {
@@ -160,7 +160,7 @@ const TaskList = () => {
   
 
   const toggleView = () => {
-    setIsKanbanView(prev => !prev); // Toggle the state based on its previous value
+    setIsKanbanView(prev => !prev);
   };
   
   return (

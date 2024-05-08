@@ -13,11 +13,9 @@ select {
   width: 80%;
   margin: auto;
   max-width: 1000px;
-  /* Sets a max-width for larger screens */
 }
 
 .list-task {
-  /* Specific styles for tasks in List view */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -60,10 +58,8 @@ select {
   max-width: 200px;
   min-width: 150px;
   padding: 8px;
-  /* Limit width of the select box */
 }
 
-/* Specific styles for Kanban view */
 .kanban-board .task {
   display: flex;
   flex-direction: column;
@@ -112,7 +108,6 @@ h3 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Adds an ellipsis if the title is too long */
 }
 
 .task-project {
@@ -167,7 +162,6 @@ h3 {
   flex-basis: 25%;
   min-width: 150px;
   margin-bottom: 5px;
-  /* Ensures minimum width */
 }
 
 .label {
@@ -202,9 +196,7 @@ h3 {
 
   .task-info {
     width: 100%;
-    /* Ensures task info stacks and fills available width */
     min-width: 0;
-    /* Removes minimum width restrictions */
   }
 
   .status-select {
@@ -215,7 +207,6 @@ h3 {
   }
 }
 
-/* Additional styling for status colors */
 .status-select.to-do {
   background-color: #E76F51;
   text-align: center;
@@ -266,7 +257,6 @@ select::-ms-expand {
 }
 
 .kanban-task {
-  /* Specific styles for tasks in Kanban view */
   display: flex;
   flex-direction: column;
 }
@@ -276,18 +266,15 @@ select::-ms-expand {
   justify-content: space-between;
   padding: 20px;
   gap: 10px;
-  /* Adjust spacing between columns */
 }
 
 .kanban-column {
   flex: 1;
-  /* Equal width for each column */
   background-color: #f7f7f7;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: visible;
-  /* Allow the content to fit normally */
 }
 
 .kanban-board .task .label {
@@ -314,7 +301,6 @@ select::-ms-expand {
 
 .task-info {
   margin-bottom: 8px;
-  /* Spacing between information rows */
 }
 
 .task-info:last-child {
@@ -323,24 +309,18 @@ select::-ms-expand {
 
 .select-container {
   text-align: center;
-  /* Center the select dropdown horizontally */
   display: none;
-  /* Initially hide the selector */
 }
 
 .kanban-board .select-container {
   display: block;
-  /* Display only in Kanban view */
   margin-top: auto;
-  /* Ensure it's at the bottom of the card */
 }
 
 .select-container select {
   width: 50%;
-  /* Appropriate size for selector */
   padding: 8px;
   margin-top: 10px;
-  /* Spacing above the selector */
   border-radius: 4px;
   border: 1px solid #ccc;
 }
